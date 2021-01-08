@@ -5,8 +5,9 @@ import './FullPost.css';
 class FullPost extends Component {
     // creating a state to save the single post 
     state ={
-        loadedPost : null
-    }
+        loadedPost : null,
+        error : false
+        }
 
     // using the hook to make http call 
     componentDidUpdate(){
@@ -19,9 +20,20 @@ class FullPost extends Component {
                 // updating the state 
                  .then((response) =>{
                      this.setState({loadedPost : response.data});
-                                });
+                                })
+                .catch((error)=>{
+                    this.setState({error : true});
+                    console.log(error);
+                });                
             }
         }
+    }
+
+    deletePostHandler = (id)=>{
+        axios.delete("https://jsonplaceholder.typicode.com/posts/"+this.props.id)
+            .then((response)=>{
+                console.log(response);
+            })
     }
 
     render () {
@@ -40,7 +52,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPost.title}</h1>
                     <p>{this.state.loadedPost.body}</p>
                     <div className="Edit">
-                        <button className="Delete">Delete</button>
+                        <button on onClick={this.deletePostHandler} className="Delete">Delete</button>
                     </div>
                 </div>
             ); 

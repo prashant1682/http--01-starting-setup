@@ -11,7 +11,8 @@ class Blog extends Component {
 //  create a state property to get data 
     state = {
      posts:[],
-     selectedPostId : null
+     selectedPostId : null,
+     error: false
     }
 
     componentDidMount(){
@@ -29,6 +30,9 @@ class Blog extends Component {
                     }   
                  });
                  this.setState({posts: updatePosts});
+            })
+            .catch((error)=>{
+                this.setState({error: true})
             });
 
     }
